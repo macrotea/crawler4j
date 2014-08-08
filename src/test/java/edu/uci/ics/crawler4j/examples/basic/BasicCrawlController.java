@@ -29,24 +29,18 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class BasicCrawlController {
 
 	public static void main(String[] args) throws Exception {
-		if (args.length != 2) {
-			System.out.println("Needed parameters: ");
-			System.out.println("\t rootFolder (it will contain intermediate crawl data)");
-			System.out.println("\t numberOfCralwers (number of concurrent threads)");
-			return;
-		}
 
 		/*
 		 * crawlStorageFolder is a folder where intermediate crawl data is
 		 * stored.
 		 */
-		String crawlStorageFolder = args[0];
+		String crawlStorageFolder = "BasicCrawlController-Data";
 
 		/*
 		 * numberOfCrawlers shows the number of concurrent threads that should
 		 * be initiated for crawling.
 		 */
-		int numberOfCrawlers = Integer.parseInt(args[1]);
+		int numberOfCrawlers = 5;
 
 		CrawlConfig config = new CrawlConfig();
 
@@ -56,18 +50,21 @@ public class BasicCrawlController {
 		 * Be polite: Make sure that we don't send more than 1 request per
 		 * second (1000 milliseconds between requests).
 		 */
+        //不要爬得太快,间隔最好大点
 		config.setPolitenessDelay(1000);
 
 		/*
 		 * You can set the maximum crawl depth here. The default value is -1 for
 		 * unlimited depth
 		 */
+        //-1表示无深度限制
 		config.setMaxDepthOfCrawling(2);
 
 		/*
 		 * You can set the maximum number of pages to crawl. The default value
 		 * is -1 for unlimited number of pages
 		 */
+        //爬的最大页数
 		config.setMaxPagesToFetch(1000);
 
 		/*
@@ -86,13 +83,18 @@ public class BasicCrawlController {
 		 * want to start a fresh crawl, you need to delete the contents of
 		 * rootFolder manually.
 		 */
+        //是否可以恢复
+        //若true要手工删除数据保存的根文件夹
 		config.setResumableCrawling(false);
 
 		/*
 		 * Instantiate the controller for this crawl.
 		 */
 		PageFetcher pageFetcher = new PageFetcher(config);
+
+        //robotstxtConfig.setEnabled(false);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+        robotstxtConfig.setEnabled(false);
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
 
@@ -102,14 +104,14 @@ public class BasicCrawlController {
 		 * which are found in these pages
 		 */
 
-		controller.addSeed("http://www.ics.uci.edu/");
-		controller.addSeed("http://www.ics.uci.edu/~lopes/");
-		controller.addSeed("http://www.ics.uci.edu/~welling/");
+		controller.addSeed("http://macrotea.cn/crawler/index.html");
 
 		/*
 		 * Start the crawl. This is a blocking operation, meaning that your code
 		 * will reach the line after this only when crawling is finished.
 		 */
 		controller.start(BasicCrawler.class, numberOfCrawlers);
-	}
+
+        System.out.println("打印被阻塞");
+    }
 }

@@ -29,18 +29,13 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
 public class MultipleCrawlerController {
 
+    //开启多个爬虫
 	public static void main(String[] args) throws Exception {
-		if (args.length != 1) {
-			System.out.println("Needed parameter: ");
-			System.out.println("\t rootFolder (it will contain intermediate crawl data)");
-			return;
-		}
-
 		/*
 		 * crawlStorageFolder is a folder where intermediate crawl data is
 		 * stored.
 		 */
-		String crawlStorageFolder = args[0];
+		String crawlStorageFolder = "MultipleCrawlerController-Data";
 
 		CrawlConfig config1 = new CrawlConfig();
 		CrawlConfig config2 = new CrawlConfig();
@@ -76,6 +71,7 @@ public class MultipleCrawlerController {
 		String[] crawler1Domains = new String[] { "http://www.ics.uci.edu/", "http://www.cnn.com/" };
 		String[] crawler2Domains = new String[] { "http://en.wikipedia.org/" };
 
+        //自定义数据
 		controller1.setCustomData(crawler1Domains);
 		controller2.setCustomData(crawler2Domains);
 

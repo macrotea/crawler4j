@@ -34,7 +34,7 @@ public class BasicCrawler extends WebCrawler {
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g" + "|png|tiff?|mid|mp2|mp3|mp4"
 			+ "|wav|avi|mov|mpeg|ram|m4v|pdf" + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
-	private final static String DOMAIN = "http://www.ics.uci.edu/";
+	private final static String DOMAIN = "http://macrotea.cn";
 
 	@Override
 	public boolean shouldVisit(WebURL url) {
@@ -62,7 +62,6 @@ public class BasicCrawler extends WebCrawler {
 			System.out.println("Html length: " + html.length());
 			System.out.println("Number of outgoing links: " + links.size());
 		}
-
 		System.out.println("=============");
 	}
 }

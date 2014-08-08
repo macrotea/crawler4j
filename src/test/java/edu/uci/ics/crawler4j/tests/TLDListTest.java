@@ -29,7 +29,8 @@ public class TLDListTest extends TestCase {
 		setUrl("http://test3.test2.test.example.com");
 		assertEquals("example.com", webUrl.getDomain());
 		assertEquals("test3.test2.test", webUrl.getSubDomain());
-		
+
+        //TODO macrotea@qq.com/2014-8-8 下午2:40  www
 		setUrl("http://www.example.ac.jp");
 		assertEquals("example.ac.jp", webUrl.getDomain());
 		assertEquals("www", webUrl.getSubDomain());

@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
  * @author Yasser Ganjisaffar <lastname at gmail dot com>
  */
 public class BasicCrawler extends WebCrawler {
-
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g" + "|png|tiff?|mid|mp2|mp3|mp4"
 			+ "|wav|avi|mov|mpeg|ram|m4v|pdf" + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
@@ -40,7 +39,7 @@ public class BasicCrawler extends WebCrawler {
 	@Override
 	public boolean shouldVisit(WebURL url) {
 		String href = url.getURL().toLowerCase();
-		return !FILTERS.matcher(href).matches() && href.startsWith("http://www.ics.uci.edu/");
+		return !FILTERS.matcher(href).matches() && href.startsWith("http://macrotea.cn/crawler/");
 	}
 
 	/**
@@ -49,12 +48,13 @@ public class BasicCrawler extends WebCrawler {
 	 */
 	@Override
 	public void visit(Page page) {
-		int docid = page.getWebURL().getDocid();
-		String url = page.getWebURL().getURL();
-		String domain = page.getWebURL().getDomain();
-		String path = page.getWebURL().getPath();
-		String subDomain = page.getWebURL().getSubDomain();
-		String parentUrl = page.getWebURL().getParentUrl();
+        WebURL webURL = page.getWebURL();
+        int docid = webURL.getDocid();
+		String url = webURL.getURL();
+		String domain = webURL.getDomain();
+		String path = webURL.getPath();
+		String subDomain = webURL.getSubDomain();
+		String parentUrl = webURL.getParentUrl();
 
 		System.out.println("Docid: " + docid);
 		System.out.println("URL: " + url);
@@ -72,6 +72,7 @@ public class BasicCrawler extends WebCrawler {
 			System.out.println("Text length: " + text.length());
 			System.out.println("Html length: " + html.length());
 			System.out.println("Number of outgoing links: " + links.size());
+			System.out.println("网页内容: " + html);
 		}
 
 		System.out.println("=============");

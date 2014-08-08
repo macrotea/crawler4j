@@ -17,13 +17,14 @@
 
 package edu.uci.ics.crawler4j.examples.statushandler;
 
-import java.util.regex.Pattern;
-
-import org.apache.http.HttpStatus;
-
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
+import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+import org.apache.http.HttpStatus;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @author Yasser Ganjisaffar <lastname at gmail dot com>
@@ -41,7 +42,7 @@ public class StatusHandlerCrawler extends WebCrawler {
 	@Override
 	public boolean shouldVisit(WebURL url) {
 		String href = url.getURL().toLowerCase();
-		return !FILTERS.matcher(href).matches() && href.startsWith("http://www.ics.uci.edu/");
+		return !FILTERS.matcher(href).matches() && href.startsWith("http://macrotea.cn");
 	}
 
 	/**
@@ -50,22 +51,44 @@ public class StatusHandlerCrawler extends WebCrawler {
 	 */
 	@Override
 	public void visit(Page page) {
-		// Do nothing
+        int docid = page.getWebURL().getDocid();
+        String url = page.getWebURL().getURL();
+        int parentDocid = page.getWebURL().getParentDocid();
+
+        System.out.println("Docid: " + docid);
+        System.out.println("URL: " + url);
+        System.out.println("Docid of parent page: " + parentDocid);
+
+        if (page.getParseData() instanceof HtmlParseData) {
+            HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
+            String text = htmlParseData.getText();
+            String html = htmlParseData.getHtml();
+            List<WebURL> links = htmlParseData.getOutgoingUrls();
+
+            System.out.println("Text length: " + text.length());
+            System.out.println("Html length: " + html.length());
+            System.out.println("Number of outgoing links: " + links.size());
+        }
+        System.out.println("=============");
 	}
 	
 	@Override
 	protected void handlePageStatusCode(WebURL webUrl, int statusCode, String statusDescription) {
-		
-		if (statusCode != HttpStatus.SC_OK) {
 
-			if (statusCode == HttpStatus.SC_NOT_FOUND) {
-				System.out.println("Broken link: " + webUrl.getURL() + ", this link was found in page: " + webUrl.getParentUrl());
-			} else {
-				System.out.println("Non success status for link: " + webUrl.getURL() + ", status code: " + statusCode + ", description: " + statusDescription);
-			}
-			
-		}
-		
-	}
-	
+        //先进入状态码处理再进入visit
+
+        System.out.println("statusCode : " + statusCode);
+
+        if (statusCode != HttpStatus.SC_OK) {
+
+            if (statusCode == HttpStatus.SC_NOT_FOUND) {
+                System.out.println("Broken link: " + webUrl.getURL() + ", this link was found in page: " + webUrl.getParentUrl());
+            } else {
+                System.out.println("Non success status for link: " + webUrl.getURL() + ", status code: " + statusCode + ", description: " + statusDescription);
+            }
+
+        }
+
+    }
+
 }

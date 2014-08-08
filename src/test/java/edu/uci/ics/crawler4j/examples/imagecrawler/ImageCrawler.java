@@ -17,14 +17,14 @@
 
 package edu.uci.ics.crawler4j.examples.imagecrawler;
 
-import java.io.File;
-import java.util.regex.Pattern;
-
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.BinaryParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import edu.uci.ics.crawler4j.util.IO;
+
+import java.io.File;
+import java.util.regex.Pattern;
 
 /**
  * @author Yasser Ganjisaffar <lastname at gmail dot com>
@@ -38,9 +38,11 @@ import edu.uci.ics.crawler4j.util.IO;
  */
 public class ImageCrawler extends WebCrawler {
 
+    //不要这些格式
 	private static final Pattern filters = Pattern.compile(".*(\\.(css|js|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf"
 			+ "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
+    //关注这些格式
 	private static final Pattern imgPatterns = Pattern.compile(".*(\\.(bmp|gif|jpe?g|png|tiff?))$");
 
 	private static File storageFolder;
@@ -66,11 +68,12 @@ public class ImageCrawler extends WebCrawler {
 			return true;
 		}
 
-		for (String domain : crawlDomains) {
-			if (href.startsWith(domain)) {
-				return true;
-			}
-		}
+        //暂时注释
+		//for (String domain : crawlDomains) {
+		//	if (href.startsWith(domain)) {
+		//		return true;
+		//	}
+		//}
 		return false;
 	}
 
@@ -79,6 +82,7 @@ public class ImageCrawler extends WebCrawler {
 		String url = page.getWebURL().getURL();
 
 		// We are only interested in processing images
+        //是否二进制数据
 		if (!(page.getParseData() instanceof BinaryParseData)) {
 			return;
 		}
@@ -88,7 +92,8 @@ public class ImageCrawler extends WebCrawler {
 		}
 
 		// Not interested in very small images
-		if (page.getContentData().length < 10 * 1024) {
+        //判断大小
+		if (page.getContentData().length < 5) {
 			return;
 		}
 

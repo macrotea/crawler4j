@@ -364,7 +364,7 @@ public class CrawlController extends Configurable {
 	 * the next URL that is found during the crawl will get a doc id of 8. Also
 	 * you need to ensure to add seen Urls in increasing order of document ids. 
 	 * 
-	 * @param pageUrl
+	 * @param url
 	 *            the URL of the page
 	 * @param docId
 	 *            the document id that you want to be assigned to this URL.
@@ -436,7 +436,7 @@ public class CrawlController extends Configurable {
 	 * monitor the shutdown flag and when it is set to true, they will no longer
 	 * process new pages.
 	 */
-	public void Shutdown() {
+	public void shutdown() {
 		logger.info("Shutting down...");
 		this.shuttingDown = true;
 		frontier.finish();

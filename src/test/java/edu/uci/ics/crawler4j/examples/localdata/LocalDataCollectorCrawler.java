@@ -40,7 +40,7 @@ public class LocalDataCollectorCrawler extends WebCrawler {
 	@Override
 	public boolean shouldVisit(WebURL url) {
 		String href = url.getURL().toLowerCase();
-		return !filters.matcher(href).matches() && href.startsWith("http://www.ics.uci.edu/");
+		return !filters.matcher(href).matches() && href.startsWith("http://macrotea.cn/");
 	}
 
 	@Override
@@ -58,6 +58,7 @@ public class LocalDataCollectorCrawler extends WebCrawler {
 			}
 		}
 		// We dump this crawler statistics after processing every 50 pages
+        // 50页就复制一次数据
 		if (myCrawlStat.getTotalProcessedPages() % 50 == 0) {
 			dumpMyData();
 		}
@@ -72,11 +73,13 @@ public class LocalDataCollectorCrawler extends WebCrawler {
 
 	// This function is called by controller before finishing the job.
 	// You can put whatever stuff you need here.
+    //退出前再保证复制
 	@Override
 	public void onBeforeExit() {
 		dumpMyData();
 	}
 
+    //只是简单输出
 	public void dumpMyData() {
 		int myId = getMyId();
 		// This is just an example. Therefore I print on screen. You may

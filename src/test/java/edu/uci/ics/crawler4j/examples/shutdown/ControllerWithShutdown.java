@@ -30,24 +30,17 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class ControllerWithShutdown {
 
 	public static void main(String[] args) throws Exception {
-		if (args.length != 2) {
-			System.out.println("Needed parameters: ");
-			System.out.println("\t rootFolder (it will contain intermediate crawl data)");
-			System.out.println("\t numberOfCralwers (number of concurrent threads)");
-			return;
-		}
-
 		/*
 		 * crawlStorageFolder is a folder where intermediate crawl data is
 		 * stored.
 		 */
-		String crawlStorageFolder = args[0];
+		String crawlStorageFolder = "ControllerWithShutdown-Data";
 
 		/*
 		 * numberOfCrawlers shows the number of concurrent threads that should
 		 * be initiated for crawling.
 		 */
-		int numberOfCrawlers = Integer.parseInt(args[1]);
+		int numberOfCrawlers = 5;
 
 		CrawlConfig config = new CrawlConfig();
 
@@ -71,9 +64,7 @@ public class ControllerWithShutdown {
 		 * URLs that are fetched and then the crawler starts following links
 		 * which are found in these pages
 		 */
-		controller.addSeed("http://www.ics.uci.edu/~welling/");
-		controller.addSeed("http://www.ics.uci.edu/~lopes/");
-		controller.addSeed("http://www.ics.uci.edu/");
+		controller.addSeed("http://macrotea.cn/crawler/index.html");
 
 		/*
 		 * Start the crawl. This is a blocking operation, meaning that your code
@@ -85,7 +76,7 @@ public class ControllerWithShutdown {
 		Thread.sleep(30 * 1000);
 
 		// Send the shutdown request and then wait for finishing
-		controller.Shutdown();
+		controller.shutdown();
 		controller.waitUntilFinish();
 	}
 }

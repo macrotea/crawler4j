@@ -18,6 +18,7 @@
 package edu.uci.ics.crawler4j.examples.localdata;
 
 public class CrawlStat {
+
 	private int totalProcessedPages;
 	private long totalLinks;
 	private long totalTextSize;

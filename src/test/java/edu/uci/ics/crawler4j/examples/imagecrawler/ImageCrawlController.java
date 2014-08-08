@@ -35,16 +35,10 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class ImageCrawlController {
 
 	public static void main(String[] args) throws Exception {
-		if (args.length < 3) {
-			System.out.println("Needed parameters: ");
-			System.out.println("\t rootFolder (it will contain intermediate crawl data)");
-			System.out.println("\t numberOfCralwers (number of concurrent threads)");
-			System.out.println("\t storageFolder (a folder for storing downloaded images)");
-			return;
-		}
-		String rootFolder = args[0];
-		int numberOfCrawlers = Integer.parseInt(args[1]);
-		String storageFolder = args[2];
+
+		String rootFolder = "ImageCrawlController-Data";
+		int numberOfCrawlers = 5;
+		String storageFolder = "ImageCrawlController-Data\\images";
 
 		CrawlConfig config = new CrawlConfig();
 
@@ -54,18 +48,23 @@ public class ImageCrawlController {
 		 * Since images are binary content, we need to set this parameter to
 		 * true to make sure they are included in the crawl.
 		 */
+
+        //开启爬二进制内容
 		config.setIncludeBinaryContentInCrawling(true);
 
-		String[] crawlDomains = new String[] { "http://uci.edu/" };
+		String[] crawlDomains = new String[] { "http://macrotea.cn/crawler/index.html" };
 
 		PageFetcher pageFetcher = new PageFetcher(config);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
+
+        //添加入口
 		for (String domain : crawlDomains) {
 			controller.addSeed(domain);
 		}
 
+        //提前配置
 		ImageCrawler.configure(crawlDomains, storageFolder);
 
 		controller.start(ImageCrawler.class, numberOfCrawlers);

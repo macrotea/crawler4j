@@ -17,25 +17,20 @@
 
 package edu.uci.ics.crawler4j.examples.localdata;
 
-import java.util.List;
-
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
+import java.util.List;
+
 public class LocalDataCollectorController {
 
 	public static void main(String[] args) throws Exception {
-		if (args.length != 2) {
-			System.out.println("Needed parameters: ");
-			System.out.println("\t rootFolder (it will contain intermediate crawl data)");
-			System.out.println("\t numberOfCralwers (number of concurrent threads)");
-			return;
-		}
-		String rootFolder = args[0];
-		int numberOfCrawlers = Integer.parseInt(args[1]);
+
+		String rootFolder = "LocalDataCollectorController-Data";
+		int numberOfCrawlers = 5;
 
 		CrawlConfig config = new CrawlConfig();
 		config.setCrawlStorageFolder(rootFolder);
@@ -47,9 +42,10 @@ public class LocalDataCollectorController {
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
 
-		controller.addSeed("http://www.ics.uci.edu/");
+		controller.addSeed("http://macrotea.cn/crawler/index.html");
 		controller.start(LocalDataCollectorCrawler.class, numberOfCrawlers);
 
+        //爬完之后
 		List<Object> crawlersLocalData = controller.getCrawlersLocalData();
 		long totalLinks = 0;
 		long totalTextSize = 0;

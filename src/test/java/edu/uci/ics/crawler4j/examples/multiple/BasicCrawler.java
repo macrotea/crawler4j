@@ -17,13 +17,13 @@
 
 package edu.uci.ics.crawler4j.examples.multiple;
 
-import java.util.List;
-import java.util.regex.Pattern;
-
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @author Yasser Ganjisaffar <lastname at gmail dot com>
@@ -37,11 +37,13 @@ public class BasicCrawler extends WebCrawler {
 
 	@Override
 	public void onStart() {
+        //获得自定义数据
 		myCrawlDomains = (String[]) myController.getCustomData();
 	}
 
 	@Override
 	public boolean shouldVisit(WebURL url) {
+
 		String href = url.getURL().toLowerCase();
 		if (FILTERS.matcher(href).matches()) {
 			return false;
